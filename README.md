@@ -1,66 +1,45 @@
-## Foundry
+# Token Distribution (ERC20)
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+A simple ERC20 token built with **Foundry** and **OpenZeppelin**.
 
-Foundry consists of:
+## Token Details
+- **Total supply**: 1,000,000 tokens (18 decimals)
+- **Network**: Base Sepolia Testnet
 
-- **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
-- **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
-- **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
-- **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+## Initial Distribution
+On deployment:
+- 20% → Wallet 1
+- 20% → Wallet 2  
+- 20% → Wallet 3
+- 40% remains with deployer
 
-## Documentation
+## Features
+- Standard ERC20 functionality
+- `burn()` function to destroy your own tokens
 
-https://book.getfoundry.sh/
+## Setup 
 
-## Usage
+```bash
+# 1. Create environment file
+touch .env
+# Add to .env:
+# RPC_URL=<your_base_sepolia_rpc>
+# PRIVATE_KEY=<your_private_key>
 
-### Build
+# 2. Install dependencies
+forge install
 
-```shell
-$ forge build
-```
+# 3. Deploy contract
+forge script script/DeployToken.s.sol:DeployToken --rpc-url $RPC_URL --broadcast
 
-### Test
+# 4. Check balances
+cast call <CONTRACT_ADDRESS> "balanceOf(address)(uint256)" <WALLET1> --rpc-url $RPC_URL
+cast call <CONTRACT_ADDRESS> "balanceOf(address)(uint256)" <WALLET2> --rpc-url $RPC_URL
+cast call <CONTRACT_ADDRESS> "balanceOf(address)(uint256)" <WALLET3> --rpc-url $RPC_URL
+cast call <CONTRACT_ADDRESS> "balanceOf(address)(uint256)" <DEPLOYER> --rpc-url $RPC_URL
 
-```shell
-$ forge test
-```
+# 5. Check total supply
+cast call <CONTRACT_ADDRESS> "totalSupply()(uint256)" --rpc-url $RPC_URL
 
-### Format
-
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+# 6. Burn tokens
+cast send <CONTRACT_ADDRESS> "burn(uint256)" <AMOUNT> --private-key $PRIVATE_KEY --rpc-url $RPC_URL
