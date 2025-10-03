@@ -6,8 +6,6 @@ import "../src/TokenDistribution.sol";
 
 contract DeployToken is Script {
     function run() external {
-
-
         uint256 deployerKey = vm.envUint("PRIVATE_KEY");
 
         // MetaMask wallets
@@ -17,8 +15,8 @@ contract DeployToken is Script {
 
         vm.startBroadcast(deployerKey);
 
-        // Deploy token -  name, symbol, ToalSupply ,  wallets
-        new TokenDistribution("TokenDistribution", "TKD", 1_000_000, wallet1, wallet2, wallet3); // 1million tokens  , in wei 1e18
+        // Deploy token - name, symbol, totalSupply, wallets
+        new TokenDistribution("TokenDistribution", "TKD", 1_000_000, wallet1, wallet2, wallet3);
 
         vm.stopBroadcast();
     }
